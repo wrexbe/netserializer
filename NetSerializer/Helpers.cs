@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright 2015 Tomi Valkeinen
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -21,7 +21,7 @@ namespace NetSerializer
 	{
 		public static IEnumerable<FieldInfo> GetFieldInfos(Type type)
 		{
-			Debug.Assert(type.IsSerializable);
+			Debug.Assert(type.IsSerializable, $"Type {type} is not marked as serializable");
 
 			var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
 				.Where(fi => (fi.Attributes & FieldAttributes.NotSerialized) == 0)
