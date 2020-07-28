@@ -10,6 +10,7 @@
     <PackageTags>Serializer</PackageTags>
     <RepositoryUrl>https://github.com/tomba/netserializer</RepositoryUrl>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>Robust.NetSerializer</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
