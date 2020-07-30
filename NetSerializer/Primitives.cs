@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 #if NETCOREAPP
 using System.Text.Unicode;
 using System.Buffers;
@@ -216,28 +217,28 @@ namespace NetSerializer
 		}
 
 #if !NO_UNSAFE
-		public static unsafe void WritePrimitive(Stream stream, float value)
+		public static void WritePrimitive(Stream stream, float value)
 		{
-			uint v = *(uint*)(&value);
+			var v = Unsafe.As<float, uint>(ref value);
 			WriteVarint32(stream, v);
 		}
 
-		public static unsafe void ReadPrimitive(Stream stream, out float value)
+		public static void ReadPrimitive(Stream stream, out float value)
 		{
-			uint v = ReadVarint32(stream);
-			value = *(float*)(&v);
+			var v = ReadVarint32(stream);
+			value = Unsafe.As<uint, float>(ref v);
 		}
 
-		public static unsafe void WritePrimitive(Stream stream, double value)
+		public static void WritePrimitive(Stream stream, double value)
 		{
-			ulong v = *(ulong*)(&value);
+			var v = Unsafe.As<double, ulong>(ref value);
 			WriteVarint64(stream, v);
 		}
 
-		public static unsafe void ReadPrimitive(Stream stream, out double value)
+		public static void ReadPrimitive(Stream stream, out double value)
 		{
-			ulong v = ReadVarint64(stream);
-			value = *(double*)(&v);
+			var v = ReadVarint64(stream);
+			value = Unsafe.As<ulong, double>(ref v);
 		}
 #else
 		public static void WritePrimitive(Stream stream, float value)
