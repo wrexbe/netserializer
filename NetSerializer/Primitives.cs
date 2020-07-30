@@ -440,7 +440,71 @@ namespace NetSerializer
 				Debug.Assert(status == OperationStatus.Done);
 			}
 		}
+#elif NO_UNSAFE
+		public static void WritePrimitive(Stream stream, string value)
+		{
+			if (value == null)
+			{
+				WritePrimitive(stream, (uint)0);
+				return;
+			}
+			else if (value.Length == 0)
+			{
+				WritePrimitive(stream, (uint)1);
+				return;
+			}
 
+			var encoding = new UTF8Encoding(false, true);
+
+			int len = encoding.GetByteCount(value);
+
+			WritePrimitive(stream, (uint)len + 1);
+			WritePrimitive(stream, (uint)value.Length);
+
+			var buf = new byte[len];
+
+			encoding.GetBytes(value, 0, value.Length, buf, 0);
+
+			stream.Write(buf, 0, len);
+		}
+
+		public static void ReadPrimitive(Stream stream, out string value)
+		{
+			uint len;
+			ReadPrimitive(stream, out len);
+
+			if (len == 0)
+			{
+				value = null;
+				return;
+			}
+			else if (len == 1)
+			{
+				value = string.Empty;
+				return;
+			}
+
+			uint totalChars;
+			ReadPrimitive(stream, out totalChars);
+
+			len -= 1;
+
+			var encoding = new UTF8Encoding(false, true);
+
+			var buf = new byte[len];
+
+			int l = 0;
+
+			while (l < len)
+			{
+				int r = stream.Read(buf, l, (int)len - l);
+				if (r == 0)
+					throw new EndOfStreamException();
+				l += r;
+			}
+
+			value = encoding.GetString(buf);
+		}
 #else
 		sealed class StringHelper
 		{
