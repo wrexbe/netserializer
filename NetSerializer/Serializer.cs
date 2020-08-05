@@ -31,6 +31,7 @@ namespace NetSerializer
 			new NullableSerializer(),
 			new ListSerializer(),
 			new GenericSerializer(),
+			new HashSetSerializer(),
 		};
 
 		/// <summary>
