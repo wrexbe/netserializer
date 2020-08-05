@@ -19,11 +19,7 @@ namespace NetSerializer.TypeSerializers
 
         public IEnumerable<Type> GetSubtypes(Type type)
         {
-            var arg = type.GetGenericArguments()[0];
-
-            var serializedType = typeof(Array).MakeGenericType(arg).MakeArrayType();
-
-            return new[] {serializedType};
+            return new[] {typeof(uint), type.GetGenericArguments()[0]};
         }
 
         public MethodInfo GetStaticWriter(Type type)
