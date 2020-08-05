@@ -43,7 +43,7 @@ namespace NetSerializer.TypeSerializers
             
             var genArgs = type.GetGenericArguments();
 
-            reader = reader!.MakeGenericMethod(genArgs);
+            reader = reader.MakeGenericMethod(genArgs);
 
             return reader;
         }
@@ -65,7 +65,7 @@ namespace NetSerializer.TypeSerializers
             
             var genArgs = type.GetGenericArguments();
 
-            reader = reader!.MakeGenericMethod(genArgs);
+            reader = reader.MakeGenericMethod(genArgs);
 
             return reader;
         }
