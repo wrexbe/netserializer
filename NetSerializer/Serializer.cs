@@ -30,8 +30,8 @@ namespace NetSerializer
 			new DictionarySerializer(),
 			new NullableSerializer(),
 			new ListSerializer(),
-			new GenericSerializer(),
 			new HashSetSerializer(),
+			new GenericSerializer(),
 		};
 
 		/// <summary>
