@@ -5,3 +5,7 @@ obj
 save
 packages
 
+# JetBrains Rider
+.idea/
+*.sln.iml
+
