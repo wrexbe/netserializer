@@ -150,6 +150,7 @@ namespace NetSerializer
 		{
 			if (value == null)
 			{
+				serializer.Serialize(stream, null);
 				return;
 			}
 			
