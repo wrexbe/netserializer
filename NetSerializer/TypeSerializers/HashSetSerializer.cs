@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 
 namespace NetSerializer.TypeSerializers
@@ -64,6 +65,27 @@ namespace NetSerializer.TypeSerializers
             reader = reader.MakeGenericMethod(genArgs);
 
             return reader;
+        }
+        
+        public static void WritePrimitive<T>(Serializer serializer, Stream stream, HashSet<T> value)
+        {
+            var array = new T[value.Count];
+
+            var i = 0;
+            foreach (var t in value)
+                array[i++] = t;
+
+            serializer.Serialize(stream, array);
+        }
+
+        public static void ReadPrimitive<T>(Serializer serializer, Stream stream, out HashSet<T> value)
+        {
+            var array = (T[])serializer.Deserialize(stream);
+
+            value = new HashSet<T>();
+
+            foreach (var t in array)
+                value.Add(t);
         }
     }
 }
