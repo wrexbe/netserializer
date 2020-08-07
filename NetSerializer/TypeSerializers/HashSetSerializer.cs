@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -20,7 +20,7 @@ namespace NetSerializer.TypeSerializers
 
         public IEnumerable<Type> GetSubtypes(Type type)
         {
-            return new[] {typeof(uint), type.GetGenericArguments()[0]};
+            return new[] {typeof(uint), type.GetGenericArguments()[0].MakeArrayType()};
         }
 
         public MethodInfo GetStaticWriter(Type type)
@@ -69,6 +69,12 @@ namespace NetSerializer.TypeSerializers
         
         public static void WritePrimitive<T>(Serializer serializer, Stream stream, HashSet<T> value)
         {
+            if (value == null)
+            {
+                serializer.Serialize(stream, null);
+                return;
+            }
+            
             var array = new T[value.Count];
 
             var i = 0;
@@ -81,6 +87,12 @@ namespace NetSerializer.TypeSerializers
         public static void ReadPrimitive<T>(Serializer serializer, Stream stream, out HashSet<T> value)
         {
             var array = (T[])serializer.Deserialize(stream);
+
+            if (array == null)
+            {
+                value = null;
+                return;
+            }
 
             value = new HashSet<T>();
 
