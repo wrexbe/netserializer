@@ -148,6 +148,12 @@ namespace NetSerializer
 
 		public static void WritePrimitive<TKey, TValue>(Serializer serializer, Stream stream, Dictionary<TKey, TValue> value)
 		{
+			if (value == null)
+			{
+				serializer.Serialize(stream, null);
+				return;
+			}
+			
 			var kvpArray = new KeyValuePair<TKey, TValue>[value.Count];
 
 			int i = 0;
@@ -160,6 +166,12 @@ namespace NetSerializer
 		public static void ReadPrimitive<TKey, TValue>(Serializer serializer, Stream stream, out Dictionary<TKey, TValue> value)
 		{
 			var kvpArray = (KeyValuePair<TKey, TValue>[])serializer.Deserialize(stream);
+
+			if (kvpArray == null)
+			{
+				value = null;
+				return;
+			}
 
 			value = new Dictionary<TKey, TValue>(kvpArray.Length);
 
