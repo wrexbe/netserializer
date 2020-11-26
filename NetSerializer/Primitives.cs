@@ -218,25 +218,25 @@ namespace NetSerializer
 		}
 
 #if !NO_UNSAFE
-		public static void WritePrimitive(Stream stream, float value)
+		public static unsafe void WritePrimitive(Stream stream, float value)
 		{
 			uint v = *(uint*)(&value);
 			WriteUInt32(stream, v);
 		}
 
-		public static void ReadPrimitive(Stream stream, out float value)
+		public static unsafe void ReadPrimitive(Stream stream, out float value)
 		{
 			uint v = ReadUInt32(stream);
 			value = *(float*)(&v);
 		}
 
-		public static void WritePrimitive(Stream stream, double value)
+		public static unsafe void WritePrimitive(Stream stream, double value)
 		{
 			ulong v = *(ulong*)(&value);
 			WriteUInt64(stream, v);
 		}
 
-		public static void ReadPrimitive(Stream stream, out double value)
+		public static unsafe void ReadPrimitive(Stream stream, out double value)
 		{
 			ulong v = ReadUInt64(stream);
 			value = *(double*)(&v);
