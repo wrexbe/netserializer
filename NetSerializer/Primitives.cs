@@ -242,7 +242,7 @@ namespace NetSerializer
 			value = *(double*)(&v);
 		}
 
-#if NET5_0
+#if NET5_0_OR_GREATER
         public static void WritePrimitive(Stream stream, Half value)
         {
             ushort v = Unsafe.As<Half, ushort>(ref value);
@@ -281,7 +281,7 @@ namespace NetSerializer
 			value = BitConverter.Int64BitsToDouble((long)v);
 		}
 
-#if NET5_0
+#if NET5_0_OR_GREATER
 		public static void WritePrimitive(Stream stream, Half value)
 		{
 			WritePrimitive(stream, (double)value);

@@ -29,7 +29,7 @@ namespace NetSerializer
 				typeof(DateTime),
 				typeof(byte[]),
 				typeof(Decimal),
-#if NET5_0
+#if NET5_0_OR_GREATER
 				typeof(Half),
 #endif
 			};
