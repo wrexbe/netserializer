@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace NetSerializer
 {
@@ -16,12 +17,9 @@ namespace NetSerializer
 		public readonly IReadOnlyCollection<T> Value;
 
 		/// <summary>
-		/// The array deserialized into this instance. Only use this if the instance was deserialized.
+		/// The span of the contents of the collection.
 		/// </summary>
-		/// <remarks>
-		/// Never returns null, instead returns an empty array if the deserialized collection was null.
-		/// </remarks>
-		public T[] Array => (T[])Value ?? System.Array.Empty<T>();
+		public ReadOnlySpan<T> Span => Value is List<T> l ? CollectionsMarshal.AsSpan(l) : (T[])Value;
 
 		/// <summary>
 		/// If true, <see cref="Value"/> is a non-empty collection.
