@@ -21,6 +21,12 @@ namespace NetSerializer.TypeSerializers
 				if (elementT.IsGenericType)
 					return false;
 
+				// Avoid structs who's memory layout might be different over the network
+				if (elementT.IsAutoLayout)
+					return false;
+				if (elementT.StructLayoutAttribute.Pack == 0)
+					return false;
+
 				if (!elementT.IsClass)
 				{
 					// Throws if not blittable
