@@ -22,6 +22,7 @@ namespace Test
 		Thread m_server;
 		Thread m_client;
 
+		volatile bool m_connected;
 		ManualResetEvent m_ev;
 
 		TcpListener m_listener;
@@ -56,6 +57,11 @@ namespace Test
 
 			m_client = new Thread(ClientMain);
 			m_client.Start();
+
+			while (!m_connected)
+			{
+				Thread.Yield();
+			}
 		}
 
 		public T[] Test(T[] msgs, int loops, bool direct)
@@ -99,6 +105,8 @@ namespace Test
 		{
 			var c = new TcpClient();
 			c.Connect(IPAddress.Loopback, m_port);
+
+			m_connected = true;
 
 			m_ev.WaitOne();
 
