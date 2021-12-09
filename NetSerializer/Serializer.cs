@@ -23,6 +23,8 @@ namespace NetSerializer
 	public class Serializer
 	{
 		readonly static ITypeSerializer[] s_typeSerializers = new ITypeSerializer[] {
+			new BlittableSerializer(),
+			new BlittableArraySerializer(),
 			new ObjectSerializer(),
 			new PrimitivesSerializer(),
 			new ArraySerializer(),
